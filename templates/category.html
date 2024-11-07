@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}category{% endblock title %}
+
+{% block content %}
+<div class='bg-gray-100 text-gray-900 p-5 md:py-8 md:px-20 lg:px-40 xl:px-60'>
+    <h1 style="font-family: Poppins-Bold" class='text-4xl font-extrabold py-5 text-center md:text-start text-green-600'>{{category}}</h1>
+
+    {% if message %}
+    <div class='p-5 grid place-items-center mt-10 mb-40 text-center'>
+        <p style="font-family: Poppins-Bold;" class='my-4 text-5xl font-extrabold md:text-8xl'>404</p>
+        <p class='text-lg text-gray-500'>{{message}}</p>
+    </div>
+
+    <div class="text-xl p-5 grid grid-cols-1 place-items-center items-center md:grid-cols-3 gap-x-8">
+        <div onclick="location.href='/';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-white rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-house-door"></i></p>
+            <p class='text-base font-semibold text-gray-700'>Volver al Inicio</p>
+        </div>
+        <div onclick="location.href='/categories';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-white rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-tags"></i></p>
+            <p class='text-base font-semibold text-gray-700'>Ver Categorías</p>
+        </div>
+        <div onclick="location.href='/blog';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-white rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-book"></i></p>
+            <p class='text-base font-semibold text-gray-700'>Visitar Blog</p>
+        </div>
+    </div>
+
+    {% else %}
+    {% for blog in category_posts %}
+        <div style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class='flex flex-col md:flex-row gap-4 md:gap-x-8 bg-white p-5 mb-4 rounded-lg hover:shadow-lg transition-all duration-300'>
+            <img class="post-img-url rounded-lg object-cover w-full md:w-1/3" src="{{blog.thumbnail_url}}" alt="image">
+            <div>
+                <a class='text-green-600 hover:text-green-700 transition duration-300' href='/blogpost/{{blog.slug}}'>
+                    <h2 class='text-xl font-extrabold'>{{blog.title|slice:80}}</h2>
+                </a>
+                <p class='text-gray-600 my-3'>{{blog.meta|slice:180|safe}}</p>
+                <p class='mt-2 mb-4 text-gray-500'>por <a href='/about' class='text-green-600 hover:text-green-700 font-semibold transition-all'>Fernando</a> <i class="bi bi-dot"></i> <i class="bi bi-calendar4-event"></i> {{blog.time}} <i class="bi bi-dot"></i> <i class="bi bi-tag"></i> <a href='/category/{{blog.category}}' class='text-green-600 hover:text-green-700 font-semibold transition-all'>{{blog.category}}</a></p>
+                <a href='/blogpost/{{blog.slug}}'><button class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300'>Leer más <i class="bi bi-arrow-right font-extrabold"></i></button></a>
+            </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+    
+    <!-- Paginación -->
+    <div class="pagination py-8 flex justify-between">
+        {% if category_posts.has_previous %}
+        <a class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300' href="?page={{ category_posts.previous_page_number }}"><i class="bi bi-arrow-left font-extrabold"></i> Anterior</a>
+        {% endif %}
+
+        {% if category_posts.has_next %}
+        <a class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300' href="?page={{ category_posts.next_page_number }}">Siguiente <i class="bi bi-arrow-right font-extrabold"></i></a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

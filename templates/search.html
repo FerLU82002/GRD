@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resultados para {{query}}{% endblock title %}
+
+{% block content %}
+<div class='bg-gray-100 text-gray-900 p-5 md:py-8 md:px-20 lg:px-40 xl:px-60'>
+    <h1 style="font-family: Poppins-Bold" class='text-4xl font-extrabold py-5 text-center md:text-start text-green-600'>Resultados de la búsqueda: {{query}}</h1>
+    
+    {% if message %}
+    <div class='p-5 grid place-items-center mt-10 mb-40 text-center'>
+      <p style="font-family: Poppins-Bold;" class='my-4 text-5xl font-extrabold md:text-8xl'>404</p>
+      <p class='text-lg text-white'>{{message}}</p>
+    </div>
+
+    <div class="text-xl p-5 grid grid-cols-1 place-items-center items-center md:grid-cols-3 gap-x-4">
+        <div onclick="location.href='/';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-gray-100 rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-house-door"></i></p>
+            <p class='text-base font-semibold text-white'>Retornar al Inicio</p>
+        </div>
+        <div onclick="location.href='/categories';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-gray-100 rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-tags"></i></p>
+            <p class='text-base font-semibold text-white'>Buscar Categorías</p>
+        </div>
+        <div onclick="location.href='/blog';" style="box-shadow:0 5px 30px 0 rgba(0,0,0,.05);" class="hover:scale-105 hover:transform transition duration-300 cursor-pointer bg-gray-100 rounded-lg h-40 w-full my-4 text-center p-5 grid place-items-center">
+            <p class='text-4xl my-2 text-green-600'><i class="bi bi-book"></i></p>
+            <p class='text-base font-semibold text-white'>Visitar Blog</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% for blog in results %}
+        <div style="box-shadow:0 5px 30px 0 rgba(173, 10, 10, 0.05);" class='flex flex-col md:flex-row gap-4 md:gap-x-8 bg-white p-5 mb-4 rounded-lg hover:shadow-lg transition-all duration-300'>
+            <img class="post-img-url rounded-lg object-cover w-full md:w-1/3" src="{{blog.thumbnail_img.url}}" alt="image">
+            <div>
+                <a class='text-green-600 hover:text-green-700 transition duration-300' href='/blogpost/{{blog.slug}}'>
+                    <h2 class='text-xl font-extrabold'>{{blog.title|slice:80}}</h2>
+                </a>
+                <p class='text-green-600 my-3'>{{blog.meta|slice:180|safe}}</p>
+                <p class='mt-2 mb-4 text-green-500'>por <a href='/about' class='text-green-600 hover:text-green-700 font-semibold transition-all'>Fernando</a> <i class="bi bi-dot"></i> <i class="bi bi-calendar4-event"></i> {{blog.time}} <i class="bi bi-dot"></i> <i class="bi bi-tag"></i> <a href='/category/{{blog.category}}' class='text-green-600 hover:text-green-700 font-semibold transition-all'>{{blog.category}}</a></p>
+                <a href='/blogpost/{{blog.slug}}'><button class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300'>Leer más <i class="bi bi-arrow-right font-extrabold"></i></button></a>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <!-- Paginación -->
+    <div class="pagination py-8 flex justify-between">
+        {% if results.has_previous %}
+        <a class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300' href="?q={{ query }}&page={{ results.previous_page_number }}"><i class="bi bi-arrow-left font-extrabold"></i> Anterior</a>
+        {% endif %}
+
+        {% if results.has_next %}
+        <a class='bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition duration-300' href="?q={{ query }}&page={{ results.next_page_number }}">Siguiente <i class="bi bi-arrow-right font-extrabold"></i></a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

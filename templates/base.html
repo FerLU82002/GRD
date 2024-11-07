@@ -1,0 +1,163 @@
+{% load tailwind_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>{% block title %}{% endblock title %} - Oficina Regional de Gestión del Riesgo de Desastres Huánuco</title>
+    {% tailwind_css %}
+</head>
+<body>
+<!-- Encabezado principal -->
+<nav class="bg-green-600 text-white flex items-center justify-between p-4 shadow-lg">
+    <div class="flex items-center space-x-4">
+        <!-- Logo -->
+        <img src="/media/images/logo.png" alt="Logo Huánuco" class="h-10 w-auto md:h-12">
+
+        <!-- Título y lema -->
+        <div>
+            <h1 class="text-xl md:text-2xl font-bold leading-tight">Oficina Regional de Gestión del Riesgo</h1>
+            <p class="text-sm md:text-base italic">de Desastres Huánuco</p>
+        </div>
+    </div>
+
+    <!-- Menú de Navegación para pantallas grandes -->
+    <div class="hidden md:flex space-x-6">
+        <a href="/" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Inicio</a>
+        <a href="/about" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Sobre Nosotros</a>
+        <a href="/contact" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Contacto</a>
+        <a href="/projects" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Proyectos</a>
+        <a href="/search" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300"><i class="bi bi-search"></i></a>
+    </div>
+
+    <!-- Icono del menú para pantallas pequeñas -->
+    <div class="flex md:hidden">
+        <i class="bi bi-list cursor-pointer nav-btn text-2xl"></i>
+    </div>
+</nav>
+
+<!-- Sub-encabezado con enlaces destacados -->
+<div class="bg-gray-800 text-white p-3 flex flex-wrap justify-center md:justify-between items-center space-y-2 md:space-y-0 space-x-2 md:space-x-4">
+    <a href="#" class="flex items-center space-x-2 bg-gray-900 py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300">
+        <i class="bi bi-envelope"></i>
+        <span class="text-sm md:text-base">Mesa de Partes Virtual</span>
+    </a>
+    <a href="#" class="flex items-center space-x-2 bg-gray-700 py-2 px-4 rounded-lg hover:bg-gray-600 transition duration-300">
+        <i class="bi bi-envelope"></i>
+        <span class="text-sm md:text-base">Mesa de Partes Direcciones y Unidades</span>
+    </a>
+    <a href="#" class="flex items-center space-x-2 bg-green-600 py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">
+        <i class="bi bi-envelope"></i>
+        <span class="text-sm md:text-base">Correo Institucional</span>
+    </a>
+    <a href="#" class="flex items-center space-x-2 bg-blue-600 py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+        <img src="URL_LOGO_TRANSPARENCIA" alt="Transparencia" class="h-5 md:h-6">
+        <span class="text-sm md:text-base">Portal de Transparencia</span>
+    </a>
+</div>
+
+<!-- Modal de navegación para pantallas pequeñas -->
+<div class="hidden modal-nav fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg w-3/4 p-5 text-center relative">
+        <button class="close-modal text-right text-2xl text-gray-600 hover:text-gray-800 absolute top-2 right-4">&times;</button>
+        <nav class="mt-4 space-y-4">
+            <a href="/" class="block text-lg text-green-600 hover:text-green-800">Inicio</a>
+            <a href="/about" class="block text-lg text-green-600 hover:text-green-800">Sobre Nosotros</a>
+            <a href="/contact" class="block text-lg text-green-600 hover:text-green-800">Contacto</a>
+            <a href="/projects" class="block text-lg text-green-600 hover:text-green-800">Proyectos</a>
+            <a href="/search" class="block text-lg text-green-600 hover:text-green-800">Buscar</a>
+        </nav>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<!-- Pie de Página con enlaces originales -->
+<footer class="bg-gray-900 text-white p-8">
+  <div class="grid md:grid-cols-3 gap-8">
+      <!-- Información Institucional -->
+      <div>
+          <h2 class="text-green-500 font-bold text-xl">Oficina Regional de Gestión del Riesgo de Desastres Huánuco</h2>
+          <p class="text-gray-300 mt-4">
+              Dirección: Av. Principal N° 123, Huánuco, Perú.<br>
+              Teléfono: +51 123 456 789
+          </p>
+      </div>
+
+      <!-- Páginas -->
+      <div>
+          <h2 class="text-green-500 font-bold text-xl">Páginas</h2>
+          <ul class="mt-4 space-y-2">
+              <li><a href="/" class="hover:text-green-400 transition duration-300"><i class="bi bi-arrow-right-short"></i> Inicio</a></li>
+              <li><a href="/about" class="hover:text-green-400 transition duration-300"><i class="bi bi-arrow-right-short"></i> Sobre Nosotros</a></li>
+              <li><a href="/contact" class="hover:text-green-400 transition duration-300"><i class="bi bi-arrow-right-short"></i> Contacto</a></li>
+              <li><a href="/projects" class="hover:text-green-400 transition duration-300"><i class="bi bi-arrow-right-short"></i> Proyectos</a></li>
+          </ul>
+      </div>
+
+      <!-- Redes Sociales -->
+      <div>
+          <h2 class="text-green-500 font-bold text-xl">Síguenos</h2>
+          <ul class="mt-4 flex space-x-4 text-2xl">
+              <li><a href="#" class="hover:text-green-400 transition duration-300"><i class="bi bi-facebook"></i></a></li>
+              <li><a href="#" class="hover:text-green-400 transition duration-300"><i class="bi bi-twitter"></i></a></li>
+              <li><a href="#" class="hover:text-green-400 transition duration-300"><i class="bi bi-linkedin"></i></a></li>
+              <li><a href="#" class="hover:text-green-400 transition duration-300"><i class="bi bi-instagram"></i></a></li>
+          </ul>
+      </div>
+  </div>
+
+  <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400">
+      <p>&copy; <script>document.write(new Date().getFullYear())</script> Oficina Regional de Gestión del Riesgo de Desastres Huánuco. Todos los derechos reservados.</p>
+  </div>
+</footer> 
+
+<!-- Estilos adicionales -->
+<style>
+    /* Modal de navegación para pantallas pequeñas */
+    .modal-nav {
+        display: none;
+    }
+
+    .modal-nav.show {
+        display: flex;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+    }
+</style>
+
+<!-- Script para manejar el modal de navegación -->
+<script>
+    const navBtn = document.querySelector('.nav-btn');
+    const modalNav = document.querySelector('.modal-nav');
+    const closeModalBtn = document.querySelector('.close-modal');
+
+    navBtn.addEventListener('click', () => {
+        modalNav.classList.toggle('show');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        modalNav.classList.remove('show');
+    });
+
+    // Cerrar modal si se hace clic fuera del contenido
+    window.addEventListener('click', function (event) {
+        if (event.target === modalNav) {
+            modalNav.classList.remove('show');
+        }
+    });
+</script>
+
+</body>
+</html>

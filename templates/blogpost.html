@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}{{blog.title}}{% endblock title %}
+
+{% block content %}
+<div class='bg-white text-gray-900 p-8 pt-12 flex flex-col md:px-20 lg:px-36 xl:px-60 2xl:px-80'>
+    <!-- Título del Blog -->
+    <h1 class='text-center text-4xl md:text-5xl font-extrabold text-green-600 hover:text-green-700 transition duration-300'>
+        <a href='{{blog.slug}}'>{{blog.title}}</a>
+    </h1>
+    
+    <!-- Metadatos del blog (autor, fecha y categoría) -->
+    <div class='flex justify-center text-gray-600 mt-4 space-x-4 text-sm md:text-base'>
+        <span>Escrito por 
+            <a href='/about' class='group hover:text-green-500 transition duration-300'>
+                <i class="bi bi-person"></i> <span class='group-hover:text-green-600 font-semibold'>Fernando</span>
+            </a>
+        </span>
+        <span><i class="bi bi-dot"></i></span>
+        <span><i class="bi bi-calendar4-event"></i> {{blog.time}}</span>
+        <span><i class="bi bi-dot"></i></span>
+        <span><i class="bi bi-tag"></i> 
+            <a href='/category/{{blog.category}}' class='hover:text-green-500 transition duration-300'>
+                <span class='font-semibold'>{{blog.category}}</span>
+            </a>
+        </span>
+    </div>
+
+    <!-- Imagen del blog -->
+    <div class='flex justify-center my-6'>
+        <img class='rounded-lg shadow-lg w-full max-w-2xl md:max-w-3xl object-cover' src="{{blog.thumbnail_url}}" alt="{{blog.title}}">
+    </div>
+
+    <!-- Contenido del blog -->
+    <div class='leading-relaxed text-lg text-gray-800 md:text-lg'>
+        {{blog.content|safe}}
+    </div>
+</div>
+
+<!-- Estilos personalizados -->
+<style>
+    /* Encabezados de contenido */
+  
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    /* Estilos para listas */
+    ol, ul {
+        margin: 1.5rem 0;
+        padding-left: 1.5rem;
+        list-style: disc inside;
+    }
+
+    /* Enlaces en el contenido */
+    p a {
+        color: #38a169; /* Verde */
+        background: linear-gradient(to right, rgba(56, 161, 105, 0.5), rgba(43, 108, 73, 0.5));
+        background-size: 100% 0.1em;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        transition: background-size 0.3s, color 0.3s;
+    }
+
+    p a:hover {
+        background-size: 0 0.1em;
+        color: #2f855a;
+    }
+
+    /* Separación entre párrafos */
+    p {
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem; /* Para un espacio más cómodo en la lectura */
+    }
+
+    /* Estilo para imágenes */
+    img {
+        border-radius: 8px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    img:hover {
+        transform: scale(1.03);
+    }
+
+    /* Sombra y bordes redondeados */
+    .rounded-lg {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Botón de enlace hover */
+    a {
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}

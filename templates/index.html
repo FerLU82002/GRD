@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+<!-- Hero Section convertido en un slider de posts -->
+<div class='relative bg-white text-gray-900 text-center flex flex-col justify-center items-center h-[550px] md:h-[580px] lg:h-[600px]'>
+    <!-- Título del slider -->
+    <h1 class='z-40 text-3xl font-extrabold md:text-4xl lg:text-5xl px-6 md:px-20 lg:px-40 xl:px-60 2xl:px-80 mb-6'>
+        <span class='bg-clip-text bg-gradient-to-r from-green-400 to-orange-500 text-green-700'>Últimos Proyectos de Gestión de Riesgo</span>
+    </h1>
+    
+    <!-- Slider de posts -->
+    <div id="post-slider" class="relative w-full overflow-hidden h-64 md:h-72 lg:h-80 xl:h-96">
+        {% for post in posts %}
+        <div class="slider-item absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-1000 ease-in-out">
+            <div class="flex justify-center items-center h-full">
+                <div class="text-center">
+                    <img class='rounded-lg shadow-lg object-cover mx-auto h-40 w-72 md:h-52 md:w-96 lg:h-64 lg:w-[500px]' src="/media/images/incendiosCayran.jpg" alt="{{ post.title }}">
+                    <h2 class="mt-4 text-xl md:text-2xl font-bold text-green-700">{{ post.title }}</h2>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Controles del slider -->
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {% for _ in posts %}
+        <div class="slider-dot w-3 h-3 bg-gray-300 rounded-full"></div>
+        {% endfor %}
+    </div>
+
+    <!-- Botones Section -->
+    <div class='hero-btn mt-5 font-bold text-sm md:text-[16px] md:leading-6'>
+        <ul class='flex flex-row gap-4'>
+            <a href='/static/images/' download>
+                <div class='relative group'>
+                    <div class='bg-gradient-to-r from-green-300 to-orange-500 px-6 py-2 text-white rounded-md -inset-0.5 absolute blur-sm opacity-75 group-hover:-inset-1 transition duration-300 group-hover:duration-400 group-hover:opacity-90'></div>
+                    <button class='relative bg-white px-7 py-2 text-green-700 rounded-md group-hover:text-green-600 transition duration-200 shadow-md'><i class="bi bi-download font-extrabold"></i>Estudios</button>
+                </div>
+            </a>
+            <a href='/about'>
+                <div class='relative group'>
+                    <div class='bg-gradient-to-r from-green-300 to-orange-500 px-6 py-2 text-white rounded-md -inset-0.5 absolute blur-sm opacity-75 group-hover:-inset-1 transition duration-300 group-hover:duration-400 group-hover:opacity-90'></div>
+                    <button class='relative bg-white px-7 py-2 text-green-700 rounded-md group-hover:text-green-600 transition duration-200 shadow-md'><i class="bi bi-person"></i> contactanos</button>
+                </div>
+            </a>
+        </ul>
+    </div>
+</div>
+
+
+    <!-- Blog Section -->
+    <div class='blog-section bg-gray-100 p-8 text-gray-900'>
+        <h2 class='text-2xl md:text-3xl lg:text-4xl font-extrabold mb-8 text-center text-green-600'>Últimas publicaciones</h2>
+        <div class='blogs grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+            {% for blog in random_blogs|slice:3 %}
+                <div style="box-shadow:0 5px 15px rgba(0,0,0,0.1);" class='hover:scale-105 hover:transform bg-white p-6 rounded-lg shadow-lg transition-all duration-300'>
+                    <a href='/blogpost/{{blog.slug}}'>
+                        <img class='rounded-lg mb-4' src="{{blog.thumbnail_url}}" alt="{{blog.title}}">
+                    </a>
+                    <a class='text-green-600 hover:text-green-700 transition duration-300' href='/blogpost/{{blog.slug}}'>
+                        <h3 class='text-xl font-extrabold mb-2'>{{blog.title|slice:80}}</h3>
+                    </a>
+                    <p class='mb-3 text-gray-600'>{{blog.meta|slice:180|safe}}</p>
+                    <p class='text-sm text-gray-500'>por <i class="bi bi-person"></i> <a href='/about' class='hover:text-green-600 transition-all'>Fernando</a> <i class="bi bi-dot"></i> <i class="bi bi-calendar4-event"></i> {{blog.time}} <i class="bi bi-dot"></i> <i class="bi bi-tag"></i> <a href='/category/{{blog.category}}' class='hover:text-green-600 transition-all'>{{blog.category}}</a></p>
+                    <a href='/blogpost/{{blog.slug}}'>
+                        <button class='mt-4 bg-green-600 text-white p-2 px-4 rounded-md hover:bg-orange-500 transition duration-300'>Leer más <i class="bi bi-arrow-right font-extrabold"></i></button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class='flex justify-center mt-8'>
+            <a href='/blog'>
+                <button class='bg-white text-green-600 border border-green-600 p-2 px-4 rounded-md hover:bg-green-600 hover:text-white transition duration-300'>Cargar más <i class="bi bi-arrow-clockwise font-extrabold"></i></button>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sliderItems = document.querySelectorAll('.slider-item');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentIndex = 0;
+        const totalItems = sliderItems.length;
+
+        function showSlide(index) {
+            sliderItems.forEach((item, i) => {
+                item.style.opacity = i === index ? '1' : '0';
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-green-500', i === index);
+                dot.classList.toggle('bg-gray-300', i !== index);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            showSlide(currentIndex);
+        }
+
+        // Inicializar slider
+        showSlide(currentIndex);
+        setInterval(nextSlide, 4000); // Cambiar de post cada 4 segundos
+    });
+</script>

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Oficina Regional de Gestión de Riesgos - Huánuco{% endblock title %}
+
+{% block content %}
+
+<div class='bg-white text-gray-900 p-3 md:px-10 lg:px-20 xl:px-40 2xl:px-72'>
+    <!-- Sección de presentación de la oficina -->
+    <div class='m-6'>
+        <p class='text-4xl font-extrabold py-5 text-center md:text-start text-orange-500'>Oficina Regional de Gestión de Riesgos</p>
+        <p class='text-justify'>
+            &#128075; ¡Bienvenidos!<br><br>
+            La <strong>Oficina Regional de Gestión del Riesgo de Desastres</strong> del <strong>Gobierno Regional de Huánuco</strong> está comprometida con la <strong>seguridad</strong> y el <strong>desarrollo sostenible</strong> de toda la región. Nuestro enfoque principal es la <strong>prevención</strong> y la <strong>gestión de riesgos</strong> ante desastres naturales, trabajando constantemente para identificar áreas vulnerables y desarrollar planes de acción adecuados.<br><br>
+            Nuestra misión es <strong>evaluar los riesgos</strong>, <strong>mitigar impactos</strong>, y desarrollar proyectos que garanticen un <strong>futuro más seguro</strong> para las comunidades de Huánuco. A través de estudios y programas de intervención, buscamos reducir la vulnerabilidad de la población ante <strong>desastres naturales</strong> y promover un desarrollo resiliente. Te invitamos a conocer más sobre nuestros esfuerzos y proyectos visitando nuestra página del <span class='group text-green-500'><a href='https://www.regionhuanuco.gob.pe/' class='bg-left-bottom bg-gradient-to-r from-green-300 to-orange-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out'>GOREHCO</a></span>.
+        </p>
+    </div>
+
+    <!-- Sección de habilidades técnicas del equipo -->
+    <div class='my-10'>
+        <p class='text-4xl font-extrabold py-5 text-center md:text-start text-orange-500'>Habilidades Técnicas del Equipo</p>
+        <div class='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div>
+                <div class='my-3'>
+                    <p class="text-base font-medium my-3">Evaluación de Riesgos</p>
+                    <div class="progress-bar w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-green-500 to-orange-500 h-2.5 rounded-full" style="width: 95%"></div>
+                    </div>  
+                </div>
+                <div class='my-3'>
+                    <p class="text-base font-medium my-3">Planeamiento Estratégico</p>
+                    <div class="progress-bar w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-green-500 to-orange-500 h-2.5 rounded-full" style="width: 90%"></div>
+                    </div>  
+                </div>
+            </div>
+
+            <div>
+                <div class='my-3'>
+                    <p class="text-base font-medium my-3">Gestión de Proyectos</p>
+                    <div class="progress-bar w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-green-500 to-orange-500 h-2.5 rounded-full" style="width: 85%"></div>
+                    </div>  
+                </div>
+                <div class='my-3'>
+                    <p class="text-base font-medium my-3">Desarrollo Comunitario</p>
+                    <div class="progress-bar w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-green-500 to-orange-500 h-2.5 rounded-full" style="width: 80%"></div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Nuestro Equipo -->
+    <div class='my-10'>
+        <p class='text-4xl font-extrabold py-5 text-center md:text-start text-orange-500'>Nuestro Equipo</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Miembro del equipo -->
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <img src="URL_FOTO1" alt="Miembro 1" class="w-24 h-24 mx-auto rounded-full">
+                <h3 class="text-lg font-bold text-orange-500 mt-4">Jeremy Flores</h3>
+                <p class="text-sm text-gray-500">CEO/Director</p>
+                <a href="https://www.linkedin.com/in/jeremy-flores" target="_blank" class="mt-2 inline-block text-sm text-green-500 hover:text-green-700">
+                    LinkedIn
+                </a>
+            </div>
+
+            <!-- Miembros adicionales con estructura similar -->
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <img src="URL_FOTO2" alt="Miembro 2" class="w-24 h-24 mx-auto rounded-full">
+                <h3 class="text-lg font-bold text-orange-500 mt-4">Megan Johnston</h3>
+                <p class="text-sm text-gray-500">Managing Director</p>
+                <a href="https://www.linkedin.com/in/megan-johnston" target="_blank" class="mt-2 inline-block text-sm text-green-500 hover:text-green-700">
+                    LinkedIn
+                </a>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <img src="URL_FOTO3" alt="Miembro 3" class="w-24 h-24 mx-auto rounded-full">
+                <h3 class="text-lg font-bold text-orange-500 mt-4">Jack Delgado</h3>
+                <p class="text-sm text-gray-500">Project Manager</p>
+                <a href="https://www.linkedin.com/in/jack-delgado" target="_blank" class="mt-2 inline-block text-sm text-green-500 hover:text-green-700">
+                    LinkedIn
+                </a>
+            </div>
+
+            <!-- Continuar con los otros miembros... -->
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales para animaciones y elementos visuales -->
+<style>
+    .progress-bar {
+        animation: progress-bar-animation 1s forwards;
+    }
+    @keyframes progress-bar-animation {
+        from { width: 0%; }
+        to { width: 100%; }
+    }
+
+    /* Ajustes generales para mejorar la alineación y responsividad */
+    .container {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+</style>
+
+{% endblock %}

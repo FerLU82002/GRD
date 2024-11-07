@@ -1,0 +1,35 @@
+# Environments
+env/
+venv/
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Django specific
+*.log
+*.pot
+*.py[cod]
+*.sqlite3
+*.pyo
+*.migrations/
+
+# Local environment variables
+.env
+
+# Static files
+/static/
+/media/
+
+# Cache files
+*.cache
+*.py[cod]
+
+# IDE configurations
+.vscode/
+.idea/
+
+# Ignore compiled translations
+*.mo
+
+# Ignore Windows line-ending issues
+*.crlf
