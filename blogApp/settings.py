@@ -32,18 +32,28 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # Dependencias necesarias para django-admin-interface
+    'colorfield',  # Debe ir antes de admin_interface
+    'admin_interface',  # Extensión para mejorar el administrador de Django
+
+    # Tu aplicación Tailwind
     'tailwind',
     'theme',
+
+    # Resto de tus aplicaciones
     'tinymce',
     'home.apps.HomeConfig',
     'django_browser_reload',
-    'django.contrib.admin',
+
+    # Aplicaciones predeterminadas de Django
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',  # Colócala al final para evitar conflictos
 ]
+
 
 TAILWIND_APP_NAME = 'theme'
 
