@@ -10,29 +10,20 @@ import re
 
 # Create your views here.
 def index(request):
-    # Obtiene todos los blogs
     blogs = Blog.objects.all()
-
-    # Calcula el número de blogs disponibles
     numero_blogs = blogs.count()
-
-    # Asegúrate de seleccionar hasta 3 o menos si no hay tantos blogs
     numero_a_seleccionar = min(3, numero_blogs)
-
-    # Selecciona los blogs aleatoriamente, asegurando que el número no sea mayor al disponible
     random_blogs = random.sample(list(blogs), numero_a_seleccionar)
-
-    # Pasa los blogs seleccionados al contexto
     context = {'random_blogs': random_blogs}
     return render(request, 'index.html', context)
 
-def about (request):
+def about(request):
     return render(request, 'about.html')
 
 def thanks(request):
     return render(request, 'thanks.html')
 
-def contact (request):
+def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -47,25 +38,24 @@ def contact (request):
 
             if email_pattern.match(email) and phone_pattern.match(phone):
                 form_data = {
-                'name':name,
-                'email':email,
-                'phone':phone,
-                'message':message,
+                    'name': name,
+                    'email': email,
+                    'phone': phone,
+                    'message': message,
                 }
                 message = '''
                 From:\n\t\t{}\n
                 Message:\n\t\t{}\n
                 Email:\n\t\t{}\n
                 Phone:\n\t\t{}\n
-                '''.format(form_data['name'], form_data['message'], form_data['email'],form_data['phone'])
+                '''.format(form_data['name'], form_data['message'], form_data['email'], form_data['phone'])
                 send_mail('You got a mail!', message, '', ['dev.ash.py@gmail.com'])
                 messages.success(request, 'Your message was sent.')
-                # return HttpResponseRedirect('/thanks')
             else:
                 messages.error(request, 'Email or Phone is Invalid!')
     return render(request, 'contact.html', {})
 
-def projects (request):
+def projects(request):
     return render(request, 'projects.html')
 
 def blog(request):
@@ -91,22 +81,29 @@ def categories(request):
     return render(request, "categories.html", {'all_categories': all_categories})
 
 def search(request):
-    query = request.GET.get('q')
-    query_list = query.split()
-    results = Blog.objects.none()
-    for word in query_list:
-        results = results | Blog.objects.filter(Q(title__contains=word) | Q(content__contains=word)).order_by('-time')
-    paginator = Paginator(results, 3)
-    page = request.GET.get('page')
-    results = paginator.get_page(page)
-    if len(results) == 0:
-        message = "Sorry, no results found for your search query."
+    query = request.GET.get('q', '').strip()
+    if query:
+        # Guardar la búsqueda en la sesión
+        if 'recent_searches' not in request.session:
+            request.session['recent_searches'] = []
+        if query not in request.session['recent_searches']:
+            request.session['recent_searches'] = [query] + request.session['recent_searches'][:4]  # Limitar a 5 búsquedas recientes
+            request.session.modified = True
+
+        # Realizar la búsqueda
+        results = Blog.objects.filter(Q(title__icontains=query) | Q(content__icontains=query)).order_by('-time')
     else:
-        message = ""
-    return render(request, 'search.html', {'results': results, 'query': query, 'message': message})
+        results = Blog.objects.none()
 
+    message = "Sin resultados" if not results else ""
+    context = {
+        'results': results,
+        'query': query,
+        'message': message,
+    }
+    return render(request, 'search.html', context)
 
-def blogpost (request, slug):
+def blogpost(request, slug):
     try:
         blog = Blog.objects.get(slug=slug)
         context = {'blog': blog}
@@ -114,8 +111,3 @@ def blogpost (request, slug):
     except Blog.DoesNotExist:
         context = {'message': 'Blog post not found'}
         return render(request, '404.html', context, status=404)
-
-# def blogpost (request, slug):
-#     blog = Blog.objects.filter(slug=slug).first()
-#     context = {'blog': blog}
-#     return render(request, 'blogpost.html', context)

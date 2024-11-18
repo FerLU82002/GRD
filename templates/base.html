@@ -33,7 +33,8 @@
         <a href="/about" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Sobre Nosotros</a>
         <a href="/contact" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Contacto</a>
         <a href="/projects" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300">Proyectos</a>
-        <a href="/search" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300"><i class="bi bi-search"></i></a>
+        <!-- Botón que abre el modal -->
+        <button id="openSearchModal" class="p-2 px-4 rounded-lg hover:bg-green-500 transition duration-300"><i class="bi bi-search"></i></button>
     </div>
 
     <!-- Icono del menú para pantallas pequeñas -->
@@ -62,20 +63,40 @@
     </a>
 </div>
 
-<!-- Modal de navegación para pantallas pequeñas -->
-<div class="hidden modal-nav fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center">
-    <div class="bg-white rounded-lg w-3/4 p-5 text-center relative">
-        <button class="close-modal text-right text-2xl text-gray-600 hover:text-gray-800 absolute top-2 right-4">&times;</button>
-        <nav class="mt-4 space-y-4">
-            <a href="/" class="block text-lg text-green-600 hover:text-green-800">Inicio</a>
-            <a href="/about" class="block text-lg text-green-600 hover:text-green-800">Sobre Nosotros</a>
-            <a href="/contact" class="block text-lg text-green-600 hover:text-green-800">Contacto</a>
-            <a href="/projects" class="block text-lg text-green-600 hover:text-green-800">Proyectos</a>
-            <a href="/search" class="block text-lg text-green-600 hover:text-green-800">Buscar</a>
-        </nav>
+<!-- Modal de búsqueda -->
+<div id="searchModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg w-3/4 md:w-1/3 p-6 text-center relative">
+        <!-- Botón de cerrar -->
+        <button id="closeSearchModal" class="text-gray-600 hover:text-gray-800 absolute top-4 right-4 text-2xl">&times;</button>
+        
+        <!-- Formulario de búsqueda -->
+        <form method="GET" action="/search" class="flex flex-col space-y-4">
+            <h2 class="text-2xl font-bold text-green-600">Buscar</h2>
+            <input
+                type="text"
+                name="q"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                placeholder="Escribe tu búsqueda..."
+                required
+            />
+            <!-- Botón de Buscar -->
+            <button
+                type="submit"
+                class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
+            >
+                Buscar
+            </button>
+        </form>
+
+        <!-- Búsquedas recientes -->
+        <div class="mt-6 text-left">
+            <h3 class="text-lg font-bold text-gray-700">Búsquedas recientes</h3>
+            <ul id="recentSearches" class="mt-2 text-gray-600 space-y-2">
+                <!-- Este contenido se llenará dinámicamente -->
+            </ul>
+        </div>
     </div>
 </div>
-
 {% block content %}{% endblock %}
 
 <!-- Pie de Página con enlaces originales -->
@@ -116,48 +137,71 @@
   <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400">
       <p>&copy; <script>document.write(new Date().getFullYear())</script> Oficina Regional de Gestión del Riesgo de Desastres Huánuco. Todos los derechos reservados.</p>
   </div>
-</footer> 
+</footer>
 
-<!-- Estilos adicionales -->
-<style>
-    /* Modal de navegación para pantallas pequeñas */
-    .modal-nav {
-        display: none;
-    }
-
-    .modal-nav.show {
-        display: flex;
-    }
-
-    .close-modal {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        cursor: pointer;
-    }
-</style>
-
-<!-- Script para manejar el modal de navegación -->
+<!-- Script para manejar el modal y búsquedas recientes -->
 <script>
-    const navBtn = document.querySelector('.nav-btn');
-    const modalNav = document.querySelector('.modal-nav');
-    const closeModalBtn = document.querySelector('.close-modal');
+    const openSearchModal = document.getElementById("openSearchModal");
+    const closeSearchModal = document.getElementById("closeSearchModal");
+    const searchModal = document.getElementById("searchModal");
+    const recentSearchesList = document.getElementById("recentSearches");
 
-    navBtn.addEventListener('click', () => {
-        modalNav.classList.toggle('show');
+    // Mostrar el modal
+    openSearchModal.addEventListener("click", () => {
+        searchModal.classList.remove("hidden");
+        searchModal.classList.add("flex");
+        loadRecentSearches();
     });
 
-    closeModalBtn.addEventListener('click', () => {
-        modalNav.classList.remove('show');
+    // Cerrar el modal
+    closeSearchModal.addEventListener("click", () => {
+        searchModal.classList.remove("flex");
+        searchModal.classList.add("hidden");
     });
 
-    // Cerrar modal si se hace clic fuera del contenido
-    window.addEventListener('click', function (event) {
-        if (event.target === modalNav) {
-            modalNav.classList.remove('show');
+    // Cerrar el modal al hacer clic fuera del contenido
+    window.addEventListener("click", (event) => {
+        if (event.target === searchModal) {
+            searchModal.classList.remove("flex");
+            searchModal.classList.add("hidden");
         }
     });
+
+    // Guardar búsquedas recientes en localStorage
+    const saveSearch = (query) => {
+        if (!query) return;
+
+        let searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+        if (!searches.includes(query)) {
+            searches.unshift(query); // Agregar la búsqueda al principio
+            if (searches.length > 5) searches.pop(); // Mantener solo las 5 más recientes
+            localStorage.setItem("recentSearches", JSON.stringify(searches));
+        }
+    };
+
+    // Cargar búsquedas recientes desde localStorage
+    const loadRecentSearches = () => {
+        recentSearchesList.innerHTML = ""; // Limpiar la lista
+        let searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+        if (searches.length === 0) {
+            recentSearchesList.innerHTML = "<p class='text-gray-500'>No hay búsquedas recientes.</p>";
+        } else {
+            searches.forEach((search) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="/search?q=${search}" class="text-green-600 hover:text-green-700 transition">${search}</a>`;
+                recentSearchesList.appendChild(li);
+            });
+        }
+    };
+
+    // Capturar el formulario de búsqueda y guardar la búsqueda
+    const searchForm = document.querySelector("form");
+    searchForm.addEventListener("submit", (e) => {
+        const queryInput = searchForm.querySelector("input[name='q']");
+        saveSearch(queryInput.value);
+    });
 </script>
+
 
 </body>
 </html>
